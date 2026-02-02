@@ -159,6 +159,8 @@ const elements = {
   clearBtn: document.getElementById("clearBtn"),
   nodeTableBody: document.getElementById("nodeTableBody"),
   nodeCount: document.getElementById("nodeCount"),
+  nodeInfoList: document.getElementById("nodeInfoList"),
+  nodeInfoCount: document.getElementById("nodeInfoCount"),
   log: document.getElementById("log"),
 };
 
@@ -404,6 +406,8 @@ function renderNodes() {
   if (!nodes.length) {
     elements.nodeTableBody.innerHTML =
       '<tr class="empty"><td colspan="7">Connect to a node to load the NodeDB.</td></tr>';
+    elements.nodeInfoList.innerHTML = '<li class="empty">Nodes with names will appear here.</li>';
+    elements.nodeInfoCount.textContent = "0 links";
     return;
   }
 
@@ -437,6 +441,31 @@ function renderNodes() {
       `;
     })
     .join("");
+
+  const namedNodes = nodes.filter((node) => {
+    const user = node.user ?? {};
+    const longName = (user.longName ?? "").trim();
+    const shortName = (user.shortName ?? "").trim();
+    return longName || shortName;
+  });
+
+  elements.nodeInfoCount.textContent = `${namedNodes.length} link${
+    namedNodes.length === 1 ? "" : "s"
+  }`;
+
+  elements.nodeInfoList.innerHTML = namedNodes.length
+    ? namedNodes
+        .map((node) => {
+          const user = node.user ?? {};
+          const longName = (user.longName ?? "").trim();
+          const shortName = (user.shortName ?? "").trim();
+          const label = [shortName, longName].filter(Boolean).join(" — ");
+          return `<li><a href="nodeinfo.html?num=${encodeURIComponent(
+            node.num
+          )}">${label}</a></li>`;
+        })
+        .join("")
+    : '<li class="empty">Nodes with names will appear here.</li>';
 }
 
 function attachNodeHandlers(device) {

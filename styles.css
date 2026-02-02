@@ -208,6 +208,33 @@ button:disabled {
   font-size: 0.9rem;
 }
 
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.link-list li {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+}
+
+.link-list li a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-list li.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 18px 12px;
+}
+
 .log pre {
   margin: 0;
   background: #0f172a;
