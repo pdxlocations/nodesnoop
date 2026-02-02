@@ -159,8 +159,13 @@ const elements = {
   clearBtn: document.getElementById("clearBtn"),
   nodeTableBody: document.getElementById("nodeTableBody"),
   nodeCount: document.getElementById("nodeCount"),
-  nodeInfoList: document.getElementById("nodeInfoList"),
+  nodeInfoText: document.getElementById("nodeInfoText"),
   nodeInfoCount: document.getElementById("nodeInfoCount"),
+  downloadLinksBtn: document.getElementById("downloadLinksBtn"),
+  nodesTab: document.getElementById("nodesTab"),
+  linksTab: document.getElementById("linksTab"),
+  nodesPanel: document.getElementById("nodesPanel"),
+  linksPanel: document.getElementById("linksPanel"),
   log: document.getElementById("log"),
 };
 
@@ -406,8 +411,9 @@ function renderNodes() {
   if (!nodes.length) {
     elements.nodeTableBody.innerHTML =
       '<tr class="empty"><td colspan="7">Connect to a node to load the NodeDB.</td></tr>';
-    elements.nodeInfoList.innerHTML = '<li class="empty">Nodes with names will appear here.</li>';
+    elements.nodeInfoText.value = "Nodes with names will appear here.";
     elements.nodeInfoCount.textContent = "0 links";
+    elements.downloadLinksBtn.disabled = true;
     return;
   }
 
@@ -453,19 +459,45 @@ function renderNodes() {
     namedNodes.length === 1 ? "" : "s"
   }`;
 
-  elements.nodeInfoList.innerHTML = namedNodes.length
-    ? namedNodes
-        .map((node) => {
-          const user = node.user ?? {};
-          const longName = (user.longName ?? "").trim();
-          const shortName = (user.shortName ?? "").trim();
-          const label = [shortName, longName].filter(Boolean).join(" — ");
-          return `<li><a href="nodeinfo.html?num=${encodeURIComponent(
-            node.num
-          )}">${label}</a></li>`;
-        })
-        .join("")
-    : '<li class="empty">Nodes with names will appear here.</li>';
+  const linkLines = namedNodes
+    .map((node) => {
+      const user = node.user ?? {};
+      const longName = (user.longName ?? "").trim();
+      const shortName = (user.shortName ?? "").trim();
+      const label = [shortName, longName].filter(Boolean).join(" — ");
+      const url = buildNodeInfoUrl(node);
+      if (!url) return null;
+      return `${label} - ${url}`;
+    })
+    .filter(Boolean)
+    .join("\n");
+
+  elements.nodeInfoText.value = linkLines || "Nodes with names will appear here.";
+  elements.downloadLinksBtn.disabled = !linkLines;
+}
+
+function setActiveTab(active) {
+  const isLinks = active === "links";
+  elements.nodesTab.classList.toggle("is-active", !isLinks);
+  elements.linksTab.classList.toggle("is-active", isLinks);
+  elements.nodesTab.setAttribute("aria-selected", String(!isLinks));
+  elements.linksTab.setAttribute("aria-selected", String(isLinks));
+  elements.nodesPanel.classList.toggle("is-hidden", isLinks);
+  elements.linksPanel.classList.toggle("is-hidden", !isLinks);
+}
+
+function downloadLinks() {
+  const content = elements.nodeInfoText.value.trim();
+  if (!content || content === "Nodes with names will appear here.") return;
+  const blob = new Blob([`${content}\n`], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "nodesnoop-nodeinfo-links.txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 }
 
 function attachNodeHandlers(device) {
@@ -652,3 +684,6 @@ elements.connectBtn.addEventListener("click", connect);
 elements.disconnectBtn.addEventListener("click", disconnect);
 elements.refreshBtn.addEventListener("click", refreshNodeDb);
 elements.clearBtn.addEventListener("click", clearNodeDb);
+elements.nodesTab?.addEventListener("click", () => setActiveTab("nodes"));
+elements.linksTab?.addEventListener("click", () => setActiveTab("links"));
+elements.downloadLinksBtn?.addEventListener("click", downloadLinks);

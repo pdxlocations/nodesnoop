@@ -84,6 +84,40 @@ h1 {
   margin-bottom: 16px;
 }
 
+.tabs {
+  display: inline-flex;
+  gap: 8px;
+  padding: 6px;
+  background: #eef2ff;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab.is-active {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+}
+
+.tab-panels {
+  display: grid;
+  gap: 16px;
+}
+
+.is-hidden {
+  display: none;
+}
+
 .controls {
   display: grid;
   gap: 16px;
@@ -208,31 +242,25 @@ button:disabled {
   font-size: 0.9rem;
 }
 
-.link-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
+.link-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
-.link-list li {
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: #f8fafc;
+.link-textarea {
+  width: 100%;
+  min-height: 220px;
+  padding: 14px;
+  border-radius: 14px;
   border: 1px solid var(--border);
-}
-
-.link-list li a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.link-list li.empty {
-  color: var(--muted);
-  text-align: center;
-  padding: 18px 12px;
+  background: #f8fafc;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--ink);
+  resize: vertical;
 }
 
 .log pre {

@@ -66,36 +66,72 @@
           <h2>Nodes</h2>
           <div class="meta" id="nodeCount">0 nodes</div>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Num</th>
-                <th>Short</th>
-                <th>Long name</th>
-                <th>HW</th>
-                <th>Last heard</th>
-                <th>Position</th>
-                <th>Node info</th>
-              </tr>
-            </thead>
-            <tbody id="nodeTableBody">
-              <tr class="empty">
-                <td colspan="7">Connect to a node to load the NodeDB.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="tabs" role="tablist" aria-label="Nodes views">
+          <button
+            class="tab is-active"
+            role="tab"
+            aria-selected="true"
+            aria-controls="nodesPanel"
+            id="nodesTab"
+            type="button"
+          >
+            Table
+          </button>
+          <button
+            class="tab"
+            role="tab"
+            aria-selected="false"
+            aria-controls="linksPanel"
+            id="linksTab"
+            type="button"
+          >
+            Link List
+          </button>
         </div>
-      </section>
-
-      <section class="card">
-        <div class="card__header">
-          <h2>Node Info Links</h2>
-          <div class="meta" id="nodeInfoCount">0 links</div>
+        <div class="tab-panels">
+          <div id="nodesPanel" role="tabpanel" aria-labelledby="nodesTab">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Num</th>
+                    <th>Short</th>
+                    <th>Long name</th>
+                    <th>HW</th>
+                    <th>Last heard</th>
+                    <th>Position</th>
+                    <th>Node info</th>
+                  </tr>
+                </thead>
+                <tbody id="nodeTableBody">
+                  <tr class="empty">
+                    <td colspan="7">Connect to a node to load the NodeDB.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div
+            id="linksPanel"
+            role="tabpanel"
+            aria-labelledby="linksTab"
+            class="is-hidden"
+          >
+            <div class="link-tools">
+              <div class="meta" id="nodeInfoCount">0 links</div>
+              <button id="downloadLinksBtn" class="ghost" type="button" disabled>
+                Download list
+              </button>
+            </div>
+            <textarea
+              id="nodeInfoText"
+              class="link-textarea"
+              readonly
+              spellcheck="false"
+              aria-label="Node info URLs"
+            >Nodes with names will appear here.</textarea>
+          </div>
         </div>
-        <ul class="link-list" id="nodeInfoList">
-          <li class="empty">Nodes with names will appear here.</li>
-        </ul>
       </section>
 
       <section class="card log">
