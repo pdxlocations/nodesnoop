@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meshtastic Node Info</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <div>
+          <p class="eyebrow">Meshtastic</p>
+          <h1>Node Info</h1>
+          <p class="subhead">Details for the selected node.</p>
+        </div>
+        <a class="status" href="./index.html">Back to list</a>
+      </header>
+
+      <section class="card">
+        <h2 id="nodeTitle">Node</h2>
+        <pre id="nodeJson"></pre>
+      </section>
+    </main>
+    <script type="module" src="./nodeinfo.js"></script>
+  </body>
+</html>

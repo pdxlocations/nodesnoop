@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meshtastic NodeDB Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <div>
+          <p class="eyebrow">Meshtastic</p>
+          <h1>NodeDB Viewer</h1>
+          <p class="subhead">
+            Connect over Serial, Bluetooth, or HTTP(S), then pull the node database.
+          </p>
+        </div>
+        <div class="status" id="status">Disconnected</div>
+      </header>
+
+      <section class="card">
+        <h2>Connect</h2>
+        <div class="controls">
+          <label class="field">
+            <span>Connection method</span>
+            <select id="connectionType">
+              <option value="serial">Serial (USB)</option>
+              <option value="bluetooth">Bluetooth (Web BLE)</option>
+              <option value="http">HTTP(S) / IP</option>
+            </select>
+          </label>
+
+          <label class="field" id="ipField">
+            <span>Node host / IP</span>
+            <input
+              id="ipInput"
+              type="text"
+              placeholder="meshtastic.local, 10.10.0.57, or 10.10.0.57:8080"
+              autocomplete="off"
+            />
+            <div class="inline">
+              <label class="checkbox">
+                <input type="checkbox" id="tlsToggle" />
+                <span>Use HTTPS</span>
+              </label>
+            </div>
+            <small class="hint">You can paste a full URL; it will be normalized to host:port and HTTPS.</small>
+          </label>
+
+          <div class="actions">
+            <button id="connectBtn" class="primary">Connect</button>
+            <button id="disconnectBtn" class="ghost" disabled>Disconnect</button>
+            <button id="refreshBtn" class="ghost" disabled>Refresh NodeDB</button>
+            <button id="clearBtn" class="ghost">Clear List</button>
+          </div>
+        </div>
+        <div class="note">
+          Web Serial / Web Bluetooth require a Chromium-based browser and a secure
+          context (HTTPS or localhost).
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card__header">
+          <h2>Nodes</h2>
+          <div class="meta" id="nodeCount">0 nodes</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Num</th>
+                <th>Short</th>
+                <th>Long name</th>
+                <th>HW</th>
+                <th>Last heard</th>
+                <th>Position</th>
+                <th>Node info</th>
+              </tr>
+            </thead>
+            <tbody id="nodeTableBody">
+              <tr class="empty">
+                <td colspan="7">Connect to a node to load the NodeDB.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card log">
+        <h2>Activity</h2>
+        <pre id="log"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
