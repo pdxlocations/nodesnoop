@@ -57,3 +57,5 @@ This app is a static site. You can serve it with `python3 -m http.server` under 
 - Replace `/path/to/nodesnoop` with the actual repo path.
 - If you want to bind to port 80, change `8000` to `80` and ensure the service user has permission.
 - Web Serial and Web Bluetooth require a secure context (HTTPS or localhost). If you serve this over the network, consider placing it behind HTTPS (e.g., nginx or Caddy) so those features work in browsers.
+
+Meshtastic® is a registered trademark of Meshtastic LLC. Meshtastic software components are released under various licenses, see GitHub for details. No warranty is provided - use at your own risk.
