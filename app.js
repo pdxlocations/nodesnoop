@@ -207,32 +207,21 @@ function parseHttpTarget(input) {
   if (host.startsWith("http://")) {
     tls = false;
     host = host.replace(/^http:\/\//, "");
+  } else if (host.startsWith("http:")) {
+    tls = false;
+    host = host.replace(/^http:/, "");
   } else if (host.startsWith("https://")) {
     tls = true;
     host = host.replace(/^https:\/\//, "");
+  } else if (host.startsWith("https:")) {
+    tls = true;
+    host = host.replace(/^https:/, "");
   }
+  host = host.replace(/^\/+/, "");
   if (host.includes("/")) {
     host = host.split("/")[0];
   }
   return { host, tls };
-}
-
-async function testHttpReachable(url) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 4000);
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      cache: "no-store",
-      signal: controller.signal,
-    });
-    return response.ok;
-  } catch {
-    return false;
-  } finally {
-    clearTimeout(timeoutId);
-  }
 }
 
 function formatLastHeard(value) {
@@ -566,14 +555,6 @@ async function connect() {
         setStatus("Missing host", "#d14343");
         log("HTTP connection requires a host or IP.");
         return;
-      }
-      const reportUrl = `${target.tls ? "https" : "http"}://${target.host}/json/report`;
-      const reachable = await testHttpReachable(reportUrl);
-      if (!reachable) {
-        const message = target.tls
-          ? `Cannot reach HTTPS endpoint. If using a self-signed certificate, open ${reportUrl} in a new tab, accept the certificate warning, then try connecting again.`
-          : "HTTP endpoint not reachable (may be blocked by CORS).";
-        throw new Error(message);
       }
       transport = await TransportHTTP.create(target.host, target.tls);
       log(`Selected HTTP transport: ${target.tls ? "https" : "http"}://${target.host}`);
