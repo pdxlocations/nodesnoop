@@ -2,6 +2,8 @@
 
 Quick-start instructions for running the Meshtastic NodeDB Viewer locally.
 
+<img width="1079" height="1156" alt="Screenshot 2026-03-10 at 3 57 48 PM" src="https://github.com/user-attachments/assets/e4824910-4cf9-44e2-b806-d1f4441bad29" />
+
 ## Requirements
 - A Chromium-based browser (Chrome, Edge, Brave) for Web Serial and Web Bluetooth.
 - A Meshtastic node reachable over USB (serial), Web Bluetooth, or HTTP(S).
